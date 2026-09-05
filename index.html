@@ -3,29 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive - My Files</title> <link rel="stylesheet" href="style.css">
+    <title>Google Drive</title> <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Study Hub & Resources</h1>
-        <p>Select a module below to launch.</p>
-    </header>
 
-    <main class="game-grid">
-        <div class="card">
-            <h3>2048</h3>
-            <iframe src="https://play2048.co/" frameborder="0"></iframe>
-        </div>
+    <div class="bg-blur" id="bgLayer"></div>
 
-        <div class="card">
-            <h3>Hextris</h3>
-            <iframe src="https://hextris.io/" frameborder="0"></iframe>
+    <div class="login-box" id="loginBox">
+        <h2>welcome back</h2>
+        <form onsubmit="handleLogin(event)">
+            <input type="text" placeholder="username" required>
+            <input type="password" placeholder="password" required>
+            <button type="submit" class="login-btn">login</button>
+        </form>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="heart">&lt;3</div>
+
+        <div class="button-grid">
+            <a href="https://youtube.com" target="_blank" class="app-btn"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://twitch.tv" target="_blank" class="app-btn"><i class="fa-brands fa-twitch"></i></a>
+            <a href="https://discord.com" target="_blank" class="app-btn"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://spotify.com" target="_blank" class="app-btn"><i class="fa-brands fa-spotify"></i></a>
         </div>
-        
-        <div class="card">
-            <h3>Flappy Bird</h3>
-            <iframe src="https://nebez.github.io/floppybird/" frameborder="0"></iframe>
-        </div>
-    </main>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); // Prevents page reload
+            
+            // Hide login box and unblur background
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('bgLayer').classList.add('unblur');
+            
+            // Show main screen
+            document.getElementById('dashboard').classList.add('active');
+        }
+    </script>
 </body>
 </html>
