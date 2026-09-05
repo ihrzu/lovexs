@@ -3,29 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive</title>
+    <title>lovexs</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Background Layer for Blur Effect -->
-    <div class="bg-blur" id="bgLayer"></div>
+    <div class="bg-layer" id="bgLayer"></div>
 
-    <!-- Top Left Header Info (from your sketch) -->
-    <div class="top-bar">
-        <span class="mini-heart">&lt;3</span>
-        <div class="top-icons">
-            <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
-            <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-        </div>
-    </div>
-
-    <!-- 1. BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
+        <div class="login-heart">&lt;3</div>
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
             <input type="text" placeholder="username" required>
@@ -34,28 +21,61 @@
         </form>
     </div>
 
-    <!-- 2. MAIN DASHBOARD (Hidden until login) -->
     <div class="dashboard" id="dashboard">
-        <!-- Giant Heart in Center -->
-        <div class="big-heart">&lt;3</div>
+        <div class="top-bar">
+            <span class="top-heart">&lt;3</span>
+            <div class="top-icons">
+                <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+                <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+            </div>
+        </div>
 
-        <!-- Horizontal Button Dock -->
-        <div class="button-dock">
-            <a href="https://youtube.com" target="_blank" class="dock-btn"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://twitch.tv" target="_blank" class="dock-btn"><i class="fa-brands fa-twitch"></i></a>
-            <a href="https://discord.com" target="_blank" class="dock-btn"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://spotify.com" target="_blank" class="dock-btn"><i class="fa-brands fa-spotify"></i></a>
+        <div class="center-container">
+            <div class="heart-wrapper">
+                <svg viewBox="0 0 100 90" class="heart-svg">
+                    <path d="M0 30 C0 0, 50 -10, 50 25 C50 -10, 100 0, 100 30 C100 60, 50 90, 50 90 C50 90, 0 60, 0 30 Z" fill="#ffffff" />
+                </svg>
+                <span class="heart-text">&lt;3</span>
+            </div>
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Have anything in mind?">
+            </div>
+
+            <div class="dock">
+                <a href="https://youtube.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
+                    <span>youtube</span>
+                </a>
+                <a href="https://twitch.tv" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
+                    <span>twitch</span>
+                </a>
+                <a href="https://discord.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
+                    <span>discord</span>
+                </a>
+                <a href="https://spotify.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
+                    <span>spotify</span>
+                </a>
+                <div class="dock-item">
+                    <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
+                    <span>add</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         function handleLogin(event) {
             event.preventDefault();
-            
-            // Hide login box and unblur background
+            // Hide login modal
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('bgLayer').classList.add('unblur');
-            
             // Show main screen
             document.getElementById('dashboard').classList.add('active');
         }
