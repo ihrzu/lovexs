@@ -9,43 +9,86 @@
 </head>
 <body>
 
-    <!-- Background Layer -->
     <div class="bg-blur" id="bgLayer"></div>
 
-    <!-- Clean Top-Left Corner -->
-    <div class="top-bar">
-        <span class="top-heart">&lt;3</span>
-        <div class="top-icons">
-            <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
-            <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-        </div>
-    </div>
-
-    <!-- BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
-            <input type="text" placeholder="username" required>
+            <input type="text" id="userInput" placeholder="username" required>
             <input type="password" placeholder="password" required>
             <button type="submit" class="login-btn">login</button>
         </form>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div class="dashboard" id="dashboard">
-        <div class="center-content">
-            <!-- Giant Heart -->
-            <div class="big-heart">&lt;3</div>
+        
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-            <!-- Search Bar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">PeteZah</h1>
+                <div class="header-icons">
+                    <i class="fa-solid fa-bolt"></i>
+                    <i class="fa-regular fa-bookmark"></i>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <span class="section-label">TABS</span>
+                <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="sidebarTabName">Games</span>
+                </div>
+            </div>
+
+            <div class="sidebar-nav-grid">
+                <div class="nav-grid-item"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+                <div class="nav-grid-item"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
+                <div class="nav-grid-item"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+                <div class="nav-grid-item"><i class="fa-solid fa-music"></i><span>Music</span></div>
+                <div class="nav-grid-item"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+                <div class="nav-grid-item"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
+            </div>
+
+            <div class="sidebar-links">
+                <div class="link-item"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
+                <div class="link-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
+                <div class="link-item"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
+            </div>
+
+            <button class="new-tab-btn" onclick="focusSearch()">
+                <i class="fa-solid fa-plus"></i> New Tab
+            </button>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebarUsername">Guest</span>
+                        <span class="user-status">Sign in</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-command cmd-icon"></i>
+            </div>
+        </aside>
+
+        <div class="center-content">
+            <div class="top-icons">
+                <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+                <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+            </div>
+
+            <div class="big-heart"><3</div>
+
             <form class="search-box" onsubmit="launchBrowser(event)">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="urlInput" placeholder="Have anything in mind?">
             </form>
 
-            <!-- Horizontal Dock -->
             <div class="button-dock">
                 <a href="https://youtube.com" target="_blank" class="dock-item">
                     <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
@@ -63,16 +106,6 @@
                     <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
                     <span>spotify</span>
                 </a>
-                
-                <!-- macOS Style Minimized Browser Tab in Dock -->
-                <div class="dock-item minimized-tab" id="minimizedTab" onclick="restoreBrowser()">
-                    <div class="icon-circle browser-dock-icon">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="active-dot"></span>
-                    </div>
-                    <span id="dockTabLabel">browser</span>
-                </div>
-
                 <div class="dock-item">
                     <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
                     <span>add</span>
@@ -80,7 +113,6 @@
             </div>
         </div>
 
-        <!-- Built-In Browser Popup Window -->
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
                 <div class="window-controls">
@@ -92,14 +124,31 @@
             </div>
             <iframe id="browserFrame" src="about:blank"></iframe>
         </div>
+
+        <div class="bottom-left-tab" id="bottomLeftTab" onclick="restoreBrowser()" title="Restore Window">
+            <i class="fa-solid fa-globe"></i>
+        </div>
     </div>
 
     <script>
         function handleLogin(event) {
             event.preventDefault();
+            const user = document.getElementById('userInput').value;
+            if (user) {
+                document.getElementById('sidebarUsername').innerText = user;
+            }
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('bgLayer').classList.add('unblur');
             document.getElementById('dashboard').classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function focusSearch() {
+            closeBrowser();
+            document.getElementById('urlInput').focus();
         }
 
         function launchBrowser(event) {
@@ -120,32 +169,34 @@
             frame.src = targetUrl;
             
             document.getElementById('currentUrl').innerText = targetUrl;
-            document.getElementById('dockTabLabel').innerText = query.substring(0, 10);
+            document.getElementById('sidebarTabName').innerText = query.length > 12 ? query.substring(0, 12) + '...' : query;
+            document.getElementById('sidebarTabCard').classList.add('active');
             
             const win = document.getElementById('browserWindow');
             win.classList.remove('minimized-state');
             win.classList.add('active');
             
-            document.getElementById('minimizedTab').classList.remove('visible');
+            document.getElementById('bottomLeftTab').classList.remove('visible');
         }
 
         function closeBrowser() {
             const win = document.getElementById('browserWindow');
             win.classList.remove('active', 'fullscreen', 'minimized-state');
             document.getElementById('browserFrame').src = 'about:blank';
-            document.getElementById('minimizedTab').classList.remove('visible');
+            document.getElementById('bottomLeftTab').classList.remove('visible');
+            document.getElementById('sidebarTabCard').classList.remove('active');
         }
 
         function minimizeBrowser() {
             const win = document.getElementById('browserWindow');
             win.classList.add('minimized-state');
-            document.getElementById('minimizedTab').classList.add('visible');
+            document.getElementById('bottomLeftTab').classList.add('visible');
         }
 
         function restoreBrowser() {
             const win = document.getElementById('browserWindow');
             win.classList.remove('minimized-state');
-            document.getElementById('minimizedTab').classList.remove('visible');
+            document.getElementById('bottomLeftTab').classList.remove('visible');
         }
 
         function toggleFullscreen() {
