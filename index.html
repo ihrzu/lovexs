@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lovexs Portal</title>
+    <title>PeteZah Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -46,7 +46,7 @@
             left: -270px;
             width: 270px;
             height: 100vh;
-            background: rgba(22, 22, 26, 0.75);
+            background: rgba(22, 22, 26, 0.85);
             border-right: 1px solid rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -74,7 +74,6 @@
             color: #fff;
             cursor: pointer;
             backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
             padding: 14px 8px;
             display: flex;
             align-items: center;
@@ -86,7 +85,6 @@
 
         .pull-button span {
             writing-mode: vertical-rl;
-            text-orientation: mixed;
             transform: rotate(180deg);
             font-size: 13px;
             font-weight: 700;
@@ -248,11 +246,6 @@
             color: #718096;
         }
 
-        .cmd-icon {
-            color: #718096;
-            font-size: 12px;
-        }
-
         /* LOGIN BOX */
         .login-box {
             position: relative;
@@ -285,10 +278,6 @@
             font-size: 14px;
         }
 
-        .login-box input::placeholder {
-            color: #666;
-        }
-
         .login-btn {
             width: 100%;
             padding: 12px;
@@ -300,23 +289,22 @@
             cursor: pointer;
         }
 
-        /* VIEWPORT CONTAINER */
+        /* MAIN VIEWPORT */
         .single-tab-viewport {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 82vw;
-            height: 78vh;
-            background: rgba(18, 18, 22, 0.85);
+            width: 85vw;
+            height: 82vh;
+            background: rgba(14, 14, 18, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             z-index: 100;
             flex-direction: column;
             overflow: hidden;
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
         }
 
@@ -344,12 +332,7 @@
             height: 14px;
             border-radius: 50%;
             border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
             cursor: pointer;
-            color: #000;
         }
 
         .close-btn { background: #ff5f56; }
@@ -362,19 +345,13 @@
             color: #888;
             cursor: pointer;
             font-size: 14px;
-            transition: color 0.2s;
         }
 
-        .home-nav-btn:hover {
-            color: #fff;
-        }
+        .home-nav-btn:hover { color: #fff; }
 
         .current-tab-url {
             font-size: 12px;
             color: #888;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .tab-body {
@@ -384,7 +361,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #111;
+            background: #0a0a0c;
+            overflow: hidden;
         }
 
         .center-content {
@@ -397,19 +375,15 @@
         .top-icons {
             display: flex;
             gap: 14px;
-            margin-bottom: -10px;
         }
 
         .top-icons span {
             color: #888;
             font-size: 16px;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
-        .top-icons span:hover {
-            color: #fff;
-        }
+        .top-icons span:hover { color: #fff; }
 
         .big-heart {
             font-size: 120px;
@@ -429,10 +403,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-        }
-
-        .search-box i {
-            color: #666;
         }
 
         .search-box input {
@@ -476,70 +446,93 @@
             transition: transform 0.2s ease;
         }
 
-        .dock-item:hover .icon-circle {
-            transform: translateY(-3px);
-        }
+        .dock-item:hover .icon-circle { transform: translateY(-3px); }
 
-        /* EMBEDDED IFRAME SETUP */
-        .web-frame {
+        /* GAMES GRID VIEW */
+        .games-view {
             display: none;
             width: 100%;
             height: 100%;
-            border: none;
-            background: #111;
-        }
-
-        .results-view {
-            display: none;
-            width: 100%;
-            height: 100%;
-            padding: 30px;
+            padding: 24px 30px;
             flex-direction: column;
             gap: 20px;
             overflow-y: auto;
         }
 
-        .results-header h3 {
-            font-weight: 400;
-            color: #a0aec0;
-        }
-
-        .results-list {
+        .games-header-bar {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
         }
 
-        .result-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 18px 22px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .result-title {
-            color: #38bdf8;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .result-title:hover {
-            text-decoration: underline;
-        }
-
-        .result-url {
-            font-size: 11px;
-            color: #718096;
-        }
-
-        .result-desc {
+        .game-search-input {
+            width: 280px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #fff;
             font-size: 13px;
-            color: #cbd5e1;
+            outline: none;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 16px;
+            padding-bottom: 20px;
+        }
+
+        .game-card {
+            aspect-ratio: 1;
+            background: #181820;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-card-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            padding: 10px 6px 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* EMBED FRAME */
+        .web-frame {
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
         }
     </style>
 </head>
@@ -549,11 +542,11 @@
 
     <aside class="sidebar" id="sidebar">
         <button class="pull-button" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <span>lovexs</span>
+            <span>PeteZah</span>
         </button>
 
         <div class="sidebar-header">
-            <h1 class="sidebar-title">lovexs</h1>
+            <h1 class="sidebar-title">PeteZah</h1>
             <div class="header-icons">
                 <i class="fa-solid fa-bolt"></i>
                 <i class="fa-regular fa-bookmark"></i>
@@ -569,12 +562,12 @@
         </div>
 
         <div class="sidebar-nav-grid">
-            <div class="nav-grid-item" onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+            <div class="nav-grid-item" onclick="openGamesView()"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
             <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
-            <div class="nav-grid-item" onclick="showResultsList('ai tools')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-book"></i><span>Wiki</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://archive.org')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
-            <div class="nav-grid-item" onclick="showResultsList('community chat')"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-music"></i><span>Music</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
         </div>
 
         <div class="sidebar-links">
@@ -611,48 +604,48 @@
     <div class="single-tab-viewport" id="dashboard">
         <div class="tab-header">
             <div class="window-controls">
-                <button class="win-btn close-btn" onclick="goHome()" title="Home"><i class="fa-solid fa-xmark"></i></button>
-                <button class="win-btn min-btn" onclick="toggleSidebar()" title="Menu"><i class="fa-solid fa-minus"></i></button>
-                <button class="win-btn max-btn" onclick="goHome()" title="Reset"><i class="fa-solid fa-house"></i></button>
+                <button class="win-btn close-btn" onclick="goHome()"></button>
+                <button class="win-btn min-btn" onclick="toggleSidebar()"></button>
+                <button class="win-btn max-btn" onclick="goHome()"></button>
             </div>
-            <button class="home-nav-btn" onclick="goHome()" title="Return Home">
+            <button class="home-nav-btn" onclick="goHome()">
                 <i class="fa-solid fa-house"></i>
             </button>
-            <span class="current-tab-url" id="currentUrl">lovexs://home</span>
+            <span class="current-tab-url" id="currentUrl">petezah://home</span>
         </div>
 
         <div class="tab-body">
             <div class="center-content" id="homeView">
                 <div class="top-icons">
-                    <span onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i></span>
-                    <span onclick="openUrl('https://www.crazygames.com')"><i class="fa-solid fa-ghost"></i></span>
-                    <span onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-globe"></i></span>
-                    <span onclick="openUrl('https://archive.org')"><i class="fa-solid fa-box-archive"></i></span>
+                    <span onclick="openGamesView()"><i class="fa-solid fa-gamepad"></i></span>
+                    <span onclick="goHome()"><i class="fa-brands fa-twitch"></i></span>
+                    <span onclick="goHome()"><i class="fa-brands fa-discord"></i></span>
+                    <span onclick="goHome()"><i class="fa-brands fa-spotify"></i></span>
                 </div>
 
                 <div class="big-heart"><3</div>
 
                 <form class="search-box" onsubmit="handleSearch(event)">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i class="fa-solid fa-magnifying-glass" style="color: #666;"></i>
                     <input type="text" id="urlInput" placeholder="Have anything in mind?">
                 </form>
 
                 <div class="button-dock">
-                    <div class="dock-item" onclick="openUrl('https://poki.com')">
+                    <div class="dock-item" onclick="openGamesView()">
                         <div class="icon-circle"><i class="fa-solid fa-gamepad"></i></div>
-                        <span>poki</span>
+                        <span>games</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://www.crazygames.com')">
-                        <div class="icon-circle"><i class="fa-solid fa-ghost"></i></div>
-                        <span>crazygames</span>
+                    <div class="dock-item" onclick="goHome()">
+                        <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
+                        <span>twitch</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://wikipedia.org')">
-                        <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
-                        <span>wiki</span>
+                    <div class="dock-item" onclick="goHome()">
+                        <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
+                        <span>discord</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://archive.org')">
-                        <div class="icon-circle"><i class="fa-solid fa-box-archive"></i></div>
-                        <span>archive</span>
+                    <div class="dock-item" onclick="goHome()">
+                        <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
+                        <span>spotify</span>
                     </div>
                     <div class="dock-item" onclick="focusSearch()">
                         <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
@@ -661,25 +654,36 @@
                 </div>
             </div>
 
+            <div class="games-view" id="gamesView">
+                <div class="games-header-bar">
+                    <h2 style="font-weight: 500;">Library</h2>
+                    <input type="text" class="game-search-input" id="gameSearch" placeholder="Search games..." oninput="filterGames()">
+                </div>
+                <div class="games-grid" id="gamesGrid"></div>
+            </div>
+
             <iframe 
                 id="browserFrame" 
                 src="about:blank" 
                 class="web-frame" 
-                name="internalFrame"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; gamepad; fullscreen"
-                sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation">
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; gamepad; fullscreen">
             </iframe>
-
-            <div class="results-view" id="resultsView">
-                <div class="results-header">
-                    <h3 id="queryTitle">Search Results</h3>
-                </div>
-                <div class="results-list" id="resultsList"></div>
-            </div>
         </div>
     </div>
 
     <script>
+        // GAME LIST CONFIGURATION
+        const gamesList = [
+            { name: "Slope", url: "https://krunker.io", img: "https://picsum.photos/seed/slope/200" },
+            { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/", img: "https://picsum.photos/seed/cookie/200" },
+            { name: "Geometry Dash", url: "https://scratch.mit.edu/projects/105500895/embed", img: "https://picsum.photos/seed/gd/200" },
+            { name: "Cut The Rope", url: "https://freegamehosting.net", img: "https://picsum.photos/seed/cut/200" },
+            { name: "Retro Bowl", url: "https://game316006.konggames.com", img: "https://picsum.photos/seed/retro/200" },
+            { name: "Smash Bros", url: "https://scratch.mit.edu/projects/10128407/embed", img: "https://picsum.photos/seed/smash/200" },
+            { name: "Subway Surfers", url: "https://poki.com", img: "https://picsum.photos/seed/subway/200" },
+            { name: "Drive Mad", url: "https://poki.com", img: "https://picsum.photos/seed/drive/200" }
+        ];
+
         function handleLogin(event) {
             event.preventDefault();
             const user = document.getElementById('userInput').value;
@@ -689,6 +693,7 @@
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('bgLayer').classList.add('unblur');
             document.getElementById('dashboard').classList.add('active');
+            renderGames(gamesList);
         }
 
         function toggleSidebar() {
@@ -700,89 +705,63 @@
             document.getElementById('urlInput').focus();
         }
 
-        function openUrl(url) {
-            const frame = document.getElementById('browserFrame');
-            const homeView = document.getElementById('homeView');
-            const resultsView = document.getElementById('resultsView');
-            const urlDisplay = document.getElementById('currentUrl');
-            const tabName = document.getElementById('sidebarTabName');
+        function renderGames(list) {
+            const grid = document.getElementById('gamesGrid');
+            grid.innerHTML = '';
+            list.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.onclick = () => loadGame(game.url, game.name);
+                card.innerHTML = `
+                    <img src="${game.img}" alt="${game.name}">
+                    <div class="game-card-title">${game.name}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-            homeView.style.display = 'none';
-            resultsView.style.display = 'none';
-            frame.style.display = 'block';
+        function filterGames() {
+            const query = document.getElementById('gameSearch').value.toLowerCase();
+            const filtered = gamesList.filter(g => g.name.toLowerCase().includes(query));
+            renderGames(filtered);
+        }
 
-            frame.src = url;
-            urlDisplay.innerText = url;
-            tabName.innerText = url.replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0];
+        function openGamesView() {
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('browserFrame').style.display = 'none';
+            document.getElementById('gamesView').style.display = 'flex';
+            document.getElementById('currentUrl').innerText = 'petezah://games';
+            document.getElementById('sidebarTabName').innerText = 'Games';
             document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function loadGame(url, name) {
+            const frame = document.getElementById('browserFrame');
+            document.getElementById('gamesView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'none';
+            frame.style.display = 'block';
+            frame.src = url;
+            document.getElementById('currentUrl').innerText = 'petezah://games/' + name.toLowerCase().replace(/\s+/g, '-');
+            document.getElementById('sidebarTabName').innerText = name;
         }
 
         function handleSearch(event) {
             event.preventDefault();
-            let query = document.getElementById('urlInput').value.trim().toLowerCase();
-            if (!query) return;
-
-            if (query.includes('poki')) {
-                openUrl('https://poki.com');
-            } else if (query.includes('crazygames') || query.includes('crazy games')) {
-                openUrl('https://www.crazygames.com');
-            } else if (query.includes('wiki') || query.includes('wikipedia')) {
-                openUrl('https://wikipedia.org');
-            } else if (query.includes('archive')) {
-                openUrl('https://archive.org');
-            } else if (query.startsWith('http://') || query.startsWith('https://')) {
-                openUrl(query);
-            } else if (query.includes('.') && !query.includes(' ')) {
-                openUrl('https://' + query);
-            } else {
-                showResultsList(query);
+            const query = document.getElementById('urlInput').value.trim();
+            if (query.toLowerCase().includes('game')) {
+                openGamesView();
+            } else if (query) {
+                openGamesView();
             }
         }
 
-        function showResultsList(query) {
-            const homeView = document.getElementById('homeView');
-            const resultsView = document.getElementById('resultsView');
-            const frame = document.getElementById('browserFrame');
-            const urlDisplay = document.getElementById('currentUrl');
-            const tabName = document.getElementById('sidebarTabName');
-            const queryTitle = document.getElementById('queryTitle');
-            const resultsList = document.getElementById('resultsList');
-
-            homeView.style.display = 'none';
-            frame.style.display = 'none';
-            resultsView.style.display = 'flex';
-
-            urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
-            tabName.innerText = query;
-            queryTitle.innerText = 'Results for: "' + query + '"';
-
-            resultsList.innerHTML = `
-                <div class="result-card">
-                    <span onclick="openUrl('https://poki.com');" class="result-title">Poki Games - Open Embedded</span>
-                    <span class="result-url">https://poki.com</span>
-                    <p class="result-desc">Play hundreds of web games directly inside the portal.</p>
-                </div>
-                <div class="result-card">
-                    <span onclick="openUrl('https://www.crazygames.com');" class="result-title">CrazyGames - Open Embedded</span>
-                    <span class="result-url">https://www.crazygames.com</span>
-                    <p class="result-desc">Load games inside your custom viewport.</p>
-                </div>
-            `;
-
-            document.getElementById('sidebar').classList.remove('open');
-        }
-
         function goHome() {
-            const homeView = document.getElementById('homeView');
-            const resultsView = document.getElementById('resultsView');
             const frame = document.getElementById('browserFrame');
-            
             frame.src = 'about:blank';
             frame.style.display = 'none';
-            resultsView.style.display = 'none';
-            homeView.style.display = 'flex';
-
-            document.getElementById('currentUrl').innerText = 'lovexs://home';
+            document.getElementById('gamesView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'flex';
+            document.getElementById('currentUrl').innerText = 'petezah://home';
             document.getElementById('sidebarTabName').innerText = 'Main Tab';
             document.getElementById('sidebar').classList.remove('open');
         }
