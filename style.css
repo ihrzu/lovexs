@@ -56,27 +56,36 @@ body {
     left: 0;
 }
 
-/* ATTACHED PULL BUTTON (STICKS TO THE RIGHT EDGE OF SIDEBAR) */
+/* VERTICAL "LOVEXS" PULL TAB ATTACHED TO SIDEBAR */
 .pull-button {
     position: absolute;
-    top: 25px;
-    right: -42px;
-    width: 42px;
-    height: 42px;
+    top: 80px;
+    left: 270px;
     background: rgba(22, 22, 26, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-left: none;
     border-radius: 0 12px 12px 0;
     color: #fff;
     cursor: pointer;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
+    padding: 14px 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 6px 0 20px rgba(0, 0, 0, 0.6);
     transition: background 0.2s ease, color 0.2s ease;
+    z-index: 1000;
+}
+
+.pull-button span {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: lowercase;
 }
 
 .pull-button:hover {
