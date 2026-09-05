@@ -1,116 +1,789 @@
-<script>
-    function handleLogin(event) {
-        event.preventDefault();
-        const user = document.getElementById('userInput').value;
-        if (user) {
-            document.getElementById('sidebarUsername').innerText = user;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lovexs Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('bgLayer').classList.add('unblur');
-        document.getElementById('dashboard').classList.add('active');
-    }
 
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    function focusSearch() {
-        goHome();
-        document.getElementById('urlInput').focus();
-    }
-
-    function openUrl(url) {
-        const frame = document.getElementById('browserFrame');
-        const homeView = document.getElementById('homeView');
-        const resultsView = document.getElementById('resultsView');
-        const urlDisplay = document.getElementById('currentUrl');
-        const tabName = document.getElementById('sidebarTabName');
-
-        // Hide home and search results, show the iframe
-        homeView.style.display = 'none';
-        resultsView.style.display = 'none';
-        frame.style.display = 'block';
-
-        frame.src = url;
-        urlDisplay.innerText = url;
-        tabName.innerText = url.replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0];
-        document.getElementById('sidebar').classList.remove('open');
-    }
-
-    function handleSearch(event) {
-        event.preventDefault();
-        let query = document.getElementById('urlInput').value.trim().toLowerCase();
-        if (!query) return;
-
-        // Direct Shortcuts for Game Sites and Embeddable Web Apps
-        if (query.includes('poki')) {
-            openUrl('https://poki.com');
-        } else if (query.includes('crazygames') || query.includes('crazy games')) {
-            openUrl('https://www.crazygames.com');
-        } else if (query.includes('wiki') || query.includes('wikipedia')) {
-            openUrl('https://wikipedia.org');
-        } else if (query.includes('archive')) {
-            openUrl('https://archive.org');
-        } else if (query.startsWith('http://') || query.startsWith('https://')) {
-            openUrl(query);
-        } else if (query.includes('.') && !query.includes(' ')) {
-            openUrl('https://' + query);
-        } else {
-            // General query fallback list for sites that block frames
-            showResultsList(query);
+        body {
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-    }
 
-    function showResultsList(query) {
-        const homeView = document.getElementById('homeView');
-        const resultsView = document.getElementById('resultsView');
-        const frame = document.getElementById('browserFrame');
-        const urlDisplay = document.getElementById('currentUrl');
-        const tabName = document.getElementById('sidebarTabName');
-        const queryTitle = document.getElementById('queryTitle');
-        const resultsList = document.getElementById('resultsList');
+        .bg-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            backdrop-filter: blur(20px);
+            z-index: 1;
+        }
 
-        homeView.style.display = 'none';
-        frame.style.display = 'none';
-        resultsView.style.display = 'flex';
+        .bg-blur.unblur {
+            backdrop-filter: blur(0px);
+        }
 
-        urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
-        tabName.innerText = query;
-        queryTitle.innerText = 'Results for: "' + query + '"';
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -270px;
+            width: 270px;
+            height: 100vh;
+            background: rgba(22, 22, 26, 0.75);
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 999;
+            padding: 30px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
 
-        resultsList.innerHTML = `
-            <div class="result-card">
-                <a href="https://poki.com" onclick="openUrl('https://poki.com'); return false;" class="result-title">Poki Games - Play Free Online Games</a>
-                <span class="result-url">https://poki.com</span>
-                <p class="result-desc">Play hundreds of free online games directly inside lovexs portal.</p>
+        .sidebar.open {
+            left: 0;
+        }
+
+        .pull-button {
+            position: absolute;
+            top: 80px;
+            left: 270px;
+            background: rgba(22, 22, 26, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+            color: #fff;
+            cursor: pointer;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 14px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 6px 0 20px rgba(0, 0, 0, 0.6);
+            transition: background 0.2s ease, color 0.2s ease;
+            z-index: 1000;
+        }
+
+        .pull-button span {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+        }
+
+        .pull-button:hover {
+            background: rgba(35, 35, 42, 0.95);
+            color: #38bdf8;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 12px;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .sidebar-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #718096;
+        }
+
+        .active-tab-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .sidebar-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .nav-grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #a0aec0;
+            padding: 10px 4px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-grid-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: auto;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: #a0aec0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .link-item:hover {
+            color: #fff;
+        }
+
+        .new-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .new-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .user-status {
+            font-size: 10px;
+            color: #718096;
+        }
+
+        .cmd-icon {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        /* LOGIN BOX */
+        .login-box {
+            position: relative;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px 30px;
+            border-radius: 25px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .login-box h2 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .login-box input::placeholder {
+            color: #666;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* VIEWPORT CONTAINER */
+        .single-tab-viewport {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 82vw;
+            height: 78vh;
+            background: rgba(18, 18, 22, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            z-index: 100;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .single-tab-viewport.active {
+            display: flex;
+        }
+
+        .tab-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .win-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        .close-btn { background: #ff5f56; }
+        .min-btn { background: #ffbd2e; }
+        .max-btn { background: #27c93f; }
+
+        .home-nav-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .home-nav-btn:hover {
+            color: #fff;
+        }
+
+        .current-tab-url {
+            font-size: 12px;
+            color: #888;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .tab-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-icons {
+            display: flex;
+            gap: 14px;
+            margin-bottom: -10px;
+        }
+
+        .top-icons span {
+            color: #888;
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .top-icons span:hover {
+            color: #fff;
+        }
+
+        .big-heart {
+            font-size: 120px;
+            font-weight: 900;
+            letter-spacing: -6px;
+            color: #fff;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .search-box {
+            width: 420px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-box i {
+            color: #666;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .button-dock {
+            display: flex;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 16px 30px;
+            border-radius: 24px;
+        }
+
+        .dock-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .dock-item:hover .icon-circle {
+            transform: translateY(-3px);
+        }
+
+        /* EMBEDDED FRAME & RESULTS LIST */
+        .web-frame {
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
+        .results-view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .results-header h3 {
+            font-weight: 400;
+            color: #a0aec0;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px 22px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .result-title {
+            color: #38bdf8;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .result-title:hover {
+            text-decoration: underline;
+        }
+
+        .result-url {
+            font-size: 11px;
+            color: #718096;
+        }
+
+        .result-desc {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blur" id="bgLayer"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <button class="pull-button" onclick="toggleSidebar()" title="Toggle Sidebar">
+            <span>lovexs</span>
+        </button>
+
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">lovexs</h1>
+            <div class="header-icons">
+                <i class="fa-solid fa-bolt"></i>
+                <i class="fa-regular fa-bookmark"></i>
             </div>
-            <div class="result-card">
-                <a href="https://www.crazygames.com" onclick="openUrl('https://www.crazygames.com'); return false;" class="result-title">CrazyGames - Free Online Games</a>
-                <span class="result-url">https://www.crazygames.com</span>
-                <p class="result-desc">Play browser games in your custom viewport.</p>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">TABS</span>
+            <div class="active-tab-card active" id="sidebarTabCard" onclick="goHome()">
+                <i class="fa-solid fa-house"></i>
+                <span id="sidebarTabName">Main Tab</span>
             </div>
-            <div class="result-card">
-                <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search Google for "${query}"</a>
-                <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
-                <p class="result-desc">Open in external tab (Google blocks embedded windows).</p>
+        </div>
+
+        <div class="sidebar-nav-grid">
+            <div class="nav-grid-item" onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
+            <div class="nav-grid-item" onclick="showResultsList('ai tools')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-book"></i><span>Wiki</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://archive.org')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+            <div class="nav-grid-item" onclick="showResultsList('community chat')"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
+        </div>
+
+        <div class="sidebar-links">
+            <div class="link-item" onclick="goHome()"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
+            <div class="link-item" onclick="goHome()"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
+            <div class="link-item" onclick="goHome()"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
+        </div>
+
+        <button class="new-tab-btn" onclick="goHome()">
+            <i class="fa-solid fa-plus"></i> New Tab
+        </button>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUsername">Guest</span>
+                    <span class="user-status">Sign in</span>
+                </div>
             </div>
-        `;
+            <i class="fa-solid fa-command cmd-icon"></i>
+        </div>
+    </aside>
 
-        document.getElementById('sidebar').classList.remove('open');
-    }
+    <div class="login-box" id="loginBox">
+        <h2>welcome back</h2>
+        <form onsubmit="handleLogin(event)">
+            <input type="text" id="userInput" placeholder="username" required>
+            <input type="password" placeholder="password" required>
+            <button type="submit" class="login-btn">login</button>
+        </form>
+    </div>
 
-    function goHome() {
-        const homeView = document.getElementById('homeView');
-        const resultsView = document.getElementById('resultsView');
-        const frame = document.getElementById('browserFrame');
-        
-        frame.src = 'about:blank';
-        frame.style.display = 'none';
-        resultsView.style.display = 'none';
-        homeView.style.display = 'flex';
+    <div class="single-tab-viewport" id="dashboard">
+        <div class="tab-header">
+            <div class="window-controls">
+                <button class="win-btn close-btn" onclick="goHome()" title="Home"><i class="fa-solid fa-xmark"></i></button>
+                <button class="win-btn min-btn" onclick="toggleSidebar()" title="Menu"><i class="fa-solid fa-minus"></i></button>
+                <button class="win-btn max-btn" onclick="goHome()" title="Reset"><i class="fa-solid fa-house"></i></button>
+            </div>
+            <button class="home-nav-btn" onclick="goHome()" title="Return Home">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            <span class="current-tab-url" id="currentUrl">lovexs://home</span>
+        </div>
 
-        document.getElementById('currentUrl').innerText = 'lovexs://home';
-        document.getElementById('sidebarTabName').innerText = 'Main Tab';
-        document.getElementById('sidebar').classList.remove('open');
-    }
-</script>
+        <div class="tab-body">
+            <div class="center-content" id="homeView">
+                <div class="top-icons">
+                    <span onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i></span>
+                    <span onclick="openUrl('https://www.crazygames.com')"><i class="fa-solid fa-ghost"></i></span>
+                    <span onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-globe"></i></span>
+                    <span onclick="openUrl('https://archive.org')"><i class="fa-solid fa-box-archive"></i></span>
+                </div>
+
+                <div class="big-heart"><3</div>
+
+                <form class="search-box" onsubmit="handleSearch(event)">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="urlInput" placeholder="Have anything in mind?">
+                </form>
+
+                <div class="button-dock">
+                    <div class="dock-item" onclick="openUrl('https://poki.com')">
+                        <div class="icon-circle"><i class="fa-solid fa-gamepad"></i></div>
+                        <span>poki</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://www.crazygames.com')">
+                        <div class="icon-circle"><i class="fa-solid fa-ghost"></i></div>
+                        <span>crazygames</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://wikipedia.org')">
+                        <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
+                        <span>wiki</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://archive.org')">
+                        <div class="icon-circle"><i class="fa-solid fa-box-archive"></i></div>
+                        <span>archive</span>
+                    </div>
+                    <div class="dock-item" onclick="focusSearch()">
+                        <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
+                        <span>add</span>
+                    </div>
+                </div>
+            </div>
+
+            <iframe id="browserFrame" src="about:blank" class="web-frame" name="internalFrame"></iframe>
+
+            <div class="results-view" id="resultsView">
+                <div class="results-header">
+                    <h3 id="queryTitle">Search Results</h3>
+                </div>
+                <div class="results-list" id="resultsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('userInput').value;
+            if (user) {
+                document.getElementById('sidebarUsername').innerText = user;
+            }
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('bgLayer').classList.add('unblur');
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function focusSearch() {
+            goHome();
+            document.getElementById('urlInput').focus();
+        }
+
+        function openUrl(url) {
+            const frame = document.getElementById('browserFrame');
+            const homeView = document.getElementById('homeView');
+            const resultsView = document.getElementById('resultsView');
+            const urlDisplay = document.getElementById('currentUrl');
+            const tabName = document.getElementById('sidebarTabName');
+
+            homeView.style.display = 'none';
+            resultsView.style.display = 'none';
+            frame.style.display = 'block';
+
+            frame.src = url;
+            urlDisplay.innerText = url;
+            tabName.innerText = url.replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0];
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            let query = document.getElementById('urlInput').value.trim().toLowerCase();
+            if (!query) return;
+
+            // Direct route logic for game websites & iframe-friendly sources
+            if (query.includes('poki')) {
+                openUrl('https://poki.com');
+            } else if (query.includes('crazygames') || query.includes('crazy games')) {
+                openUrl('https://www.crazygames.com');
+            } else if (query.includes('wiki') || query.includes('wikipedia')) {
+                openUrl('https://wikipedia.org');
+            } else if (query.includes('archive')) {
+                openUrl('https://archive.org');
+            } else if (query.startsWith('http://') || query.startsWith('https://')) {
+                openUrl(query);
+            } else if (query.includes('.') && !query.includes(' ')) {
+                openUrl('https://' + query);
+            } else {
+                showResultsList(query);
+            }
+        }
+
+        function showResultsList(query) {
+            const homeView = document.getElementById('homeView');
+            const resultsView = document.getElementById('resultsView');
+            const frame = document.getElementById('browserFrame');
+            const urlDisplay = document.getElementById('currentUrl');
+            const tabName = document.getElementById('sidebarTabName');
+            const queryTitle = document.getElementById('queryTitle');
+            const resultsList = document.getElementById('resultsList');
+
+            homeView.style.display = 'none';
+            frame.style.display = 'none';
+            resultsView.style.display = 'flex';
+
+            urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
+            tabName.innerText = query;
+            queryTitle.innerText = 'Results for: "' + query + '"';
+
+            resultsList.innerHTML = `
+                <div class="result-card">
+                    <span onclick="openUrl('https://poki.com');" class="result-title">Poki Games - Play Directly Inside Portal</span>
+                    <span class="result-url">https://poki.com</span>
+                    <p class="result-desc">Play hundreds of web games directly within this window.</p>
+                </div>
+                <div class="result-card">
+                    <span onclick="openUrl('https://www.crazygames.com');" class="result-title">CrazyGames - Free Browser Games</span>
+                    <span class="result-url">https://www.crazygames.com</span>
+                    <p class="result-desc">Load games inside your custom viewport without leaving.</p>
+                </div>
+                <div class="result-card">
+                    <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search Google for "${query}" (External)</a>
+                    <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
+                    <p class="result-desc">Open Google results in an external tab (prevents iframe refusal errors).</p>
+                </div>
+            `;
+
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function goHome() {
+            const homeView = document.getElementById('homeView');
+            const resultsView = document.getElementById('resultsView');
+            const frame = document.getElementById('browserFrame');
+            
+            frame.src = 'about:blank';
+            frame.style.display = 'none';
+            resultsView.style.display = 'none';
+            homeView.style.display = 'flex';
+
+            document.getElementById('currentUrl').innerText = 'lovexs://home';
+            document.getElementById('sidebarTabName').innerText = 'Main Tab';
+            document.getElementById('sidebar').classList.remove('open');
+        }
+    </script>
+</body>
+</html>
