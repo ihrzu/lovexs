@@ -205,19 +205,44 @@ body {
     align-items: center;
     font-size: 20px;
     transition: transform 0.2s ease;
+    position: relative;
 }
 
 .dock-item:hover .icon-circle {
     transform: translateY(-3px);
 }
 
-/* Built-In Browser Popup Window */
+/* Minimized Dock Tab (macOS style) */
+.minimized-tab {
+    display: none;
+}
+
+.minimized-tab.visible {
+    display: flex;
+}
+
+.browser-dock-icon {
+    background: #111;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.active-dot {
+    position: absolute;
+    bottom: -4px;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+/* Built-In Browser Window Overlay */
 .browser-window {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
     width: 80vw;
     height: 75vh;
     background: #111;
@@ -227,11 +252,19 @@ body {
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-    transition: all 0.3s ease;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    opacity: 1;
 }
 
 .browser-window.active {
     display: flex;
+}
+
+/* Minimize State Animation */
+.browser-window.minimized-state {
+    transform: translate(-50%, 100%) scale(0.1);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Fullscreen Mode */
@@ -240,15 +273,6 @@ body {
     height: 100vh;
     border-radius: 0;
     border: none;
-}
-
-/* Minimized Mode */
-.browser-window.minimized {
-    height: 40px;
-    top: auto;
-    bottom: 20px;
-    transform: translateX(-50%);
-    overflow: hidden;
 }
 
 .browser-header {
@@ -260,7 +284,7 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Window Control Buttons */
+/* Window Action Controls */
 .window-controls {
     display: flex;
     gap: 8px;
@@ -268,14 +292,14 @@ body {
 }
 
 .win-btn {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 10px;
     cursor: pointer;
     color: #000;
     transition: opacity 0.2s;
@@ -285,17 +309,9 @@ body {
     opacity: 0.8;
 }
 
-.close-btn {
-    background: #ff5f56;
-}
-
-.min-btn {
-    background: #ffbd2e;
-}
-
-.max-btn {
-    background: #27c93f;
-}
+.close-btn { background: #ff5f56; }
+.min-btn { background: #ffbd2e; }
+.max-btn { background: #27c93f; }
 
 #currentUrl {
     font-size: 12px;
