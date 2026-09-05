@@ -3,13 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive</title> <link rel="stylesheet" href="style.css">
+    <title>Google Drive</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- Background Layer for Blur Effect -->
     <div class="bg-blur" id="bgLayer"></div>
 
+    <!-- Top Left Header Info (from your sketch) -->
+    <div class="top-bar">
+        <span class="mini-heart">&lt;3</span>
+        <div class="top-icons">
+            <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+            <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+        </div>
+    </div>
+
+    <!-- 1. BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
@@ -19,20 +34,23 @@
         </form>
     </div>
 
+    <!-- 2. MAIN DASHBOARD (Hidden until login) -->
     <div class="dashboard" id="dashboard">
-        <div class="heart">&lt;3</div>
+        <!-- Giant Heart in Center -->
+        <div class="big-heart">&lt;3</div>
 
-        <div class="button-grid">
-            <a href="https://youtube.com" target="_blank" class="app-btn"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://twitch.tv" target="_blank" class="app-btn"><i class="fa-brands fa-twitch"></i></a>
-            <a href="https://discord.com" target="_blank" class="app-btn"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://spotify.com" target="_blank" class="app-btn"><i class="fa-brands fa-spotify"></i></a>
+        <!-- Horizontal Button Dock -->
+        <div class="button-dock">
+            <a href="https://youtube.com" target="_blank" class="dock-btn"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://twitch.tv" target="_blank" class="dock-btn"><i class="fa-brands fa-twitch"></i></a>
+            <a href="https://discord.com" target="_blank" class="dock-btn"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://spotify.com" target="_blank" class="dock-btn"><i class="fa-brands fa-spotify"></i></a>
         </div>
     </div>
 
     <script>
         function handleLogin(event) {
-            event.preventDefault(); // Prevents page reload
+            event.preventDefault();
             
             // Hide login box and unblur background
             document.getElementById('loginBox').style.display = 'none';
