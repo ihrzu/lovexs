@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive</title>
+    <title>Dashboard Portal</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -23,7 +23,7 @@
     <div class="dashboard" id="dashboard">
         
         <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-sidebar"></i>
         </button>
 
         <aside class="sidebar" id="sidebar">
@@ -39,7 +39,7 @@
                 <span class="section-label">TABS</span>
                 <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
                     <i class="fa-solid fa-globe"></i>
-                    <span id="sidebarTabName">Games</span>
+                    <span id="sidebarTabName">Active Page</span>
                 </div>
             </div>
 
@@ -148,6 +148,7 @@
 
         function focusSearch() {
             closeBrowser();
+            document.getElementById('sidebar').classList.remove('open');
             document.getElementById('urlInput').focus();
         }
 
