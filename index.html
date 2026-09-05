@@ -26,19 +26,19 @@
 
         <div class="sidebar-section">
             <span class="section-label">TABS</span>
-            <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
-                <i class="fa-solid fa-globe"></i>
-                <span id="sidebarTabName">Active Page</span>
+            <div class="active-tab-card active" id="sidebarTabCard" onclick="goHome()">
+                <i class="fa-solid fa-house"></i>
+                <span id="sidebarTabName">Main Tab</span>
             </div>
         </div>
 
         <div class="sidebar-nav-grid">
-            <div class="nav-grid-item"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
-            <div class="nav-grid-item"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
-            <div class="nav-grid-item"><i class="fa-solid fa-robot"></i><span>AI</span></div>
-            <div class="nav-grid-item"><i class="fa-solid fa-music"></i><span>Music</span></div>
-            <div class="nav-grid-item"><i class="fa-solid fa-film"></i><span>Movies</span></div>
-            <div class="nav-grid-item"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://chatgpt.com')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://spotify.com')"><i class="fa-solid fa-music"></i><span>Music</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://netflix.com')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+            <div class="nav-grid-item" onclick="openUrl('https://discord.com')"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
         </div>
 
         <div class="sidebar-links">
@@ -47,7 +47,7 @@
             <div class="link-item"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
         </div>
 
-        <button class="new-tab-btn" onclick="focusSearch()">
+        <button class="new-tab-btn" onclick="goHome()">
             <i class="fa-solid fa-plus"></i> New Tab
         </button>
 
@@ -72,60 +72,60 @@
         </form>
     </div>
 
-    <div class="dashboard" id="dashboard">
-        <div class="center-content">
-            <div class="top-icons">
-                <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
-                <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
-                <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    <div class="single-tab-viewport" id="dashboard">
+        <div class="tab-header">
+            <div class="window-controls">
+                <button class="win-btn close-btn" onclick="goHome()" title="Home"><i class="fa-solid fa-xmark"></i></button>
+                <button class="win-btn min-btn" onclick="toggleSidebar()" title="Menu"><i class="fa-solid fa-minus"></i></button>
+                <button class="win-btn max-btn" onclick="goHome()" title="Reset"><i class="fa-solid fa-house"></i></button>
             </div>
-
-            <div class="big-heart"><3</div>
-
-            <form class="search-box" onsubmit="launchBrowser(event)">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="urlInput" placeholder="Have anything in mind?">
-            </form>
-
-            <div class="button-dock">
-                <a href="https://youtube.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
-                    <span>youtube</span>
-                </a>
-                <a href="https://twitch.tv" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
-                    <span>twitch</span>
-                </a>
-                <a href="https://discord.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
-                    <span>discord</span>
-                </a>
-                <a href="https://spotify.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
-                    <span>spotify</span>
-                </a>
-                <div class="dock-item">
-                    <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
-                    <span>add</span>
-                </div>
-            </div>
+            <button class="home-nav-btn" onclick="goHome()" title="Return Home">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            <span class="current-tab-url" id="currentUrl">lovexs://home</span>
         </div>
 
-        <div class="browser-window" id="browserWindow">
-            <div class="browser-header">
-                <div class="window-controls">
-                    <button class="win-btn close-btn" onclick="closeBrowser()" title="Close"><i class="fa-solid fa-xmark"></i></button>
-                    <button class="win-btn min-btn" onclick="minimizeBrowser()" title="Minimize"><i class="fa-solid fa-minus"></i></button>
-                    <button class="win-btn max-btn" onclick="toggleFullscreen()" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+        <div class="tab-body">
+            <div class="center-content" id="homeView">
+                <div class="top-icons">
+                    <span onclick="openUrl('https://youtube.com')"><i class="fa-brands fa-youtube"></i></span>
+                    <span onclick="openUrl('https://twitch.tv')"><i class="fa-brands fa-twitch"></i></span>
+                    <span onclick="openUrl('https://discord.com')"><i class="fa-brands fa-discord"></i></span>
+                    <span onclick="openUrl('https://spotify.com')"><i class="fa-brands fa-spotify"></i></span>
                 </div>
-                <span id="currentUrl">https://...</span>
-            </div>
-            <iframe id="browserFrame" src="about:blank"></iframe>
-        </div>
 
-        <div class="bottom-left-tab" id="bottomLeftTab" onclick="restoreBrowser()" title="Restore Window">
-            <i class="fa-solid fa-globe"></i>
+                <div class="big-heart"><3</div>
+
+                <form class="search-box" onsubmit="handleSearch(event)">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="urlInput" placeholder="Have anything in mind?">
+                </form>
+
+                <div class="button-dock">
+                    <div class="dock-item" onclick="openUrl('https://youtube.com')">
+                        <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
+                        <span>youtube</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://twitch.tv')">
+                        <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
+                        <span>twitch</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://discord.com')">
+                        <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
+                        <span>discord</span>
+                    </div>
+                    <div class="dock-item" onclick="openUrl('https://spotify.com')">
+                        <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
+                        <span>spotify</span>
+                    </div>
+                    <div class="dock-item" onclick="focusSearch()">
+                        <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
+                        <span>add</span>
+                    </div>
+                </div>
+            </div>
+
+            <iframe id="browserFrame" src="about:blank" class="web-frame"></iframe>
         </div>
     </div>
 
@@ -146,12 +146,26 @@
         }
 
         function focusSearch() {
-            closeBrowser();
-            document.getElementById('sidebar').classList.remove('open');
+            goHome();
             document.getElementById('urlInput').focus();
         }
 
-        function launchBrowser(event) {
+        function openUrl(url) {
+            const frame = document.getElementById('browserFrame');
+            const homeView = document.getElementById('homeView');
+            const urlDisplay = document.getElementById('currentUrl');
+            const tabName = document.getElementById('sidebarTabName');
+
+            frame.src = url;
+            homeView.style.display = 'none';
+            frame.style.display = 'block';
+
+            urlDisplay.innerText = url;
+            tabName.innerText = url.replace('https://', '').replace('www.', '');
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function handleSearch(event) {
             event.preventDefault();
             let query = document.getElementById('urlInput').value.trim();
             if (!query) return;
@@ -165,42 +179,20 @@
                 }
             }
 
+            openUrl(targetUrl);
+        }
+
+        function goHome() {
             const frame = document.getElementById('browserFrame');
-            frame.src = targetUrl;
+            const homeView = document.getElementById('homeView');
             
-            document.getElementById('currentUrl').innerText = targetUrl;
-            document.getElementById('sidebarTabName').innerText = query.length > 12 ? query.substring(0, 12) + '...' : query;
-            document.getElementById('sidebarTabCard').classList.add('active');
-            
-            const win = document.getElementById('browserWindow');
-            win.classList.remove('minimized-state');
-            win.classList.add('active');
-            
-            document.getElementById('bottomLeftTab').classList.remove('visible');
-        }
+            frame.src = 'about:blank';
+            frame.style.display = 'none';
+            homeView.style.display = 'flex';
 
-        function closeBrowser() {
-            const win = document.getElementById('browserWindow');
-            win.classList.remove('active', 'fullscreen', 'minimized-state');
-            document.getElementById('browserFrame').src = 'about:blank';
-            document.getElementById('bottomLeftTab').classList.remove('visible');
-            document.getElementById('sidebarTabCard').classList.remove('active');
-        }
-
-        function minimizeBrowser() {
-            const win = document.getElementById('browserWindow');
-            win.classList.add('minimized-state');
-            document.getElementById('bottomLeftTab').classList.add('visible');
-        }
-
-        function restoreBrowser() {
-            const win = document.getElementById('browserWindow');
-            win.classList.remove('minimized-state');
-            document.getElementById('bottomLeftTab').classList.remove('visible');
-        }
-
-        function toggleFullscreen() {
-            document.getElementById('browserWindow').classList.toggle('fullscreen');
+            document.getElementById('currentUrl').innerText = 'lovexs://home';
+            document.getElementById('sidebarTabName').innerText = 'Main Tab';
+            document.getElementById('sidebar').classList.remove('open');
         }
     </script>
 </body>
