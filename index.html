@@ -9,14 +9,11 @@
 </head>
 <body>
 
-    <!-- Background Layer -->
     <div class="bg-blur" id="bgLayer"></div>
 
-    <!-- LEFT SLIDE-OUT SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-        <!-- PULL BUTTON (ATTACHED DIRECTLY TO SIDEBAR EDGE) -->
         <button class="pull-button" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <i class="fa-solid fa-bars"></i>
+            <span>lovexs</span>
         </button>
 
         <div class="sidebar-header">
@@ -27,7 +24,6 @@
             </div>
         </div>
 
-        <!-- TABS SECTION -->
         <div class="sidebar-section">
             <span class="section-label">TABS</span>
             <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
@@ -36,7 +32,6 @@
             </div>
         </div>
 
-        <!-- SIDEBAR NAV GRID -->
         <div class="sidebar-nav-grid">
             <div class="nav-grid-item"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
             <div class="nav-grid-item"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
@@ -46,19 +41,16 @@
             <div class="nav-grid-item"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
         </div>
 
-        <!-- SIDEBAR LINKS -->
         <div class="sidebar-links">
             <div class="link-item"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
             <div class="link-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
             <div class="link-item"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
         </div>
 
-        <!-- NEW TAB BUTTON -->
         <button class="new-tab-btn" onclick="focusSearch()">
             <i class="fa-solid fa-plus"></i> New Tab
         </button>
 
-        <!-- PROFILE FOOTER -->
         <div class="sidebar-footer">
             <div class="user-profile">
                 <div class="avatar"><i class="fa-regular fa-user"></i></div>
@@ -71,7 +63,6 @@
         </div>
     </aside>
 
-    <!-- BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
@@ -81,10 +72,8 @@
         </form>
     </div>
 
-    <!-- MAIN DASHBOARD CENTER CONTENT -->
     <div class="dashboard" id="dashboard">
         <div class="center-content">
-            <!-- Top Social Links -->
             <div class="top-icons">
                 <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                 <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
@@ -92,16 +81,13 @@
                 <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
             </div>
 
-            <!-- Giant Heart -->
             <div class="big-heart"><3</div>
 
-            <!-- Search Bar -->
             <form class="search-box" onsubmit="launchBrowser(event)">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="urlInput" placeholder="Have anything in mind?">
             </form>
 
-            <!-- Horizontal Dock -->
             <div class="button-dock">
                 <a href="https://youtube.com" target="_blank" class="dock-item">
                     <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
@@ -126,7 +112,6 @@
             </div>
         </div>
 
-        <!-- Built-In Browser Popup Window -->
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
                 <div class="window-controls">
@@ -139,7 +124,6 @@
             <iframe id="browserFrame" src="about:blank"></iframe>
         </div>
 
-        <!-- Floating Bottom-Left Minimized Tab Button -->
         <div class="bottom-left-tab" id="bottomLeftTab" onclick="restoreBrowser()" title="Restore Window">
             <i class="fa-solid fa-globe"></i>
         </div>
