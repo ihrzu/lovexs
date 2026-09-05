@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lovexs</title>
+    <title>Google Drive</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Background Blur Layer -->
     <div class="bg-blur" id="bgLayer"></div>
 
-    <!-- Top Left Corner -->
     <div class="top-bar">
-        <span class="top-heart">&lt;3</span>
+        <span class="top-heart"><3</span>
         <div class="top-icons">
             <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
             <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
@@ -23,7 +21,6 @@
         </div>
     </div>
 
-    <!-- BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
@@ -33,27 +30,39 @@
         </form>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div class="dashboard" id="dashboard">
-        <!-- Giant Heart in Center -->
-        <div class="big-heart">&lt;3</div>
+        <div class="center-content">
+            <div class="big-heart"><3</div>
 
-        <!-- Built-In Browser Search Bar -->
-        <form class="search-box" onsubmit="launchBrowser(event)">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="urlInput" placeholder="Have anything in mind?">
-        </form>
+            <form class="search-box" onsubmit="launchBrowser(event)">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="urlInput" placeholder="Have anything in mind?">
+            </form>
 
-        <!-- Horizontal Dock -->
-        <div class="button-dock">
-            <a href="https://youtube.com" target="_blank" class="dock-btn"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://twitch.tv" target="_blank" class="dock-btn"><i class="fa-brands fa-twitch"></i></a>
-            <a href="https://discord.com" target="_blank" class="dock-btn"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://spotify.com" target="_blank" class="dock-btn"><i class="fa-brands fa-spotify"></i></a>
-            <div class="dock-btn"><i class="fa-solid fa-plus"></i></div>
+            <div class="button-dock">
+                <a href="https://youtube.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
+                    <span>youtube</span>
+                </a>
+                <a href="https://twitch.tv" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
+                    <span>twitch</span>
+                </a>
+                <a href="https://discord.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
+                    <span>discord</span>
+                </a>
+                <a href="https://spotify.com" target="_blank" class="dock-item">
+                    <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
+                    <span>spotify</span>
+                </a>
+                <div class="dock-item">
+                    <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
+                    <span>add</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Built-In Browser Overlay -->
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
                 <button onclick="closeBrowser()"><i class="fa-solid fa-xmark"></i></button>
