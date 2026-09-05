@@ -65,7 +65,11 @@
 
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
-                <button onclick="closeBrowser()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="window-controls">
+                    <button class="win-btn close-btn" onclick="closeBrowser()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="win-btn min-btn" onclick="minimizeBrowser()" title="Minimize"><i class="fa-solid fa-minus"></i></button>
+                    <button class="win-btn max-btn" onclick="toggleFullscreen()" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+                </div>
                 <span id="currentUrl"></span>
             </div>
             <iframe id="browserFrame" src="about:blank"></iframe>
@@ -94,14 +98,25 @@
                 }
             }
 
+            const win = document.getElementById('browserWindow');
+            win.classList.remove('minimized');
             document.getElementById('browserFrame').src = targetUrl;
             document.getElementById('currentUrl').innerText = targetUrl;
-            document.getElementById('browserWindow').classList.add('active');
+            win.classList.add('active');
         }
 
         function closeBrowser() {
-            document.getElementById('browserWindow').classList.remove('active');
+            const win = document.getElementById('browserWindow');
+            win.classList.remove('active', 'fullscreen', 'minimized');
             document.getElementById('browserFrame').src = 'about:blank';
+        }
+
+        function minimizeBrowser() {
+            document.getElementById('browserWindow').classList.toggle('minimized');
+        }
+
+        function toggleFullscreen() {
+            document.getElementById('browserWindow').classList.toggle('fullscreen');
         }
     </script>
 </body>
