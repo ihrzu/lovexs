@@ -1,210 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lovexs Portal</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-    <div class="bg-blur" id="bgLayer"></div>
-
-    <aside class="sidebar" id="sidebar">
-        <button class="pull-button" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <span>lovexs</span>
-        </button>
-
-        <div class="sidebar-header">
-            <h1 class="sidebar-title">lovexs</h1>
-            <div class="header-icons">
-                <i class="fa-solid fa-bolt"></i>
-                <i class="fa-regular fa-bookmark"></i>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <span class="section-label">TABS</span>
-            <div class="active-tab-card active" id="sidebarTabCard" onclick="goHome()">
-                <i class="fa-solid fa-house"></i>
-                <span id="sidebarTabName">Main Tab</span>
-            </div>
-        </div>
-
-        <div class="sidebar-nav-grid">
-            <div class="nav-grid-item" onclick="handleSearchQuery('online games')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
-            <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
-            <div class="nav-grid-item" onclick="handleSearchQuery('ai tools')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
-            <div class="nav-grid-item" onclick="handleSearchQuery('music streaming')"><i class="fa-solid fa-music"></i><span>Music</span></div>
-            <div class="nav-grid-item" onclick="handleSearchQuery('free movies')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
-            <div class="nav-grid-item" onclick="handleSearchQuery('community chat')"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
-        </div>
-
-        <div class="sidebar-links">
-            <div class="link-item" onclick="goHome()"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
-            <div class="link-item" onclick="goHome()"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
-            <div class="link-item" onclick="goHome()"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
-        </div>
-
-        <button class="new-tab-btn" onclick="goHome()">
-            <i class="fa-solid fa-plus"></i> New Tab
-        </button>
-
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <div class="avatar"><i class="fa-regular fa-user"></i></div>
-                <div class="user-info">
-                    <span class="user-name" id="sidebarUsername">Guest</span>
-                    <span class="user-status">Sign in</span>
-                </div>
-            </div>
-            <i class="fa-solid fa-command cmd-icon"></i>
-        </div>
-    </aside>
-
-    <div class="login-box" id="loginBox">
-        <h2>welcome back</h2>
-        <form onsubmit="handleLogin(event)">
-            <input type="text" id="userInput" placeholder="username" required>
-            <input type="password" placeholder="password" required>
-            <button type="submit" class="login-btn">login</button>
-        </form>
-    </div>
-
-    <div class="single-tab-viewport" id="dashboard">
-        <div class="tab-header">
-            <div class="window-controls">
-                <button class="win-btn close-btn" onclick="goHome()" title="Home"><i class="fa-solid fa-xmark"></i></button>
-                <button class="win-btn min-btn" onclick="toggleSidebar()" title="Menu"><i class="fa-solid fa-minus"></i></button>
-                <button class="win-btn max-btn" onclick="goHome()" title="Reset"><i class="fa-solid fa-house"></i></button>
-            </div>
-            <button class="home-nav-btn" onclick="goHome()" title="Return Home">
-                <i class="fa-solid fa-house"></i>
-            </button>
-            <span class="current-tab-url" id="currentUrl">lovexs://home</span>
-        </div>
-
-        <div class="tab-body">
-            <div class="center-content" id="homeView">
-                <div class="top-icons">
-                    <span onclick="handleSearchQuery('youtube')"><i class="fa-brands fa-youtube"></i></span>
-                    <span onclick="handleSearchQuery('twitch')"><i class="fa-brands fa-twitch"></i></span>
-                    <span onclick="handleSearchQuery('discord')"><i class="fa-brands fa-discord"></i></span>
-                    <span onclick="handleSearchQuery('spotify')"><i class="fa-brands fa-spotify"></i></span>
-                </div>
-
-                <div class="big-heart"><3</div>
-
-                <form class="search-box" onsubmit="handleSearch(event)">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="urlInput" placeholder="Have anything in mind?">
-                </form>
-
-                <div class="button-dock">
-                    <div class="dock-item" onclick="handleSearchQuery('youtube')">
-                        <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
-                        <span>youtube</span>
-                    </div>
-                    <div class="dock-item" onclick="handleSearchQuery('twitch')">
-                        <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
-                        <span>twitch</span>
-                    </div>
-                    <div class="dock-item" onclick="handleSearchQuery('discord')">
-                        <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
-                        <span>discord</span>
-                    </div>
-                    <div class="dock-item" onclick="handleSearchQuery('spotify')">
-                        <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
-                        <span>spotify</span>
-                    </div>
-                    <div class="dock-item" onclick="focusSearch()">
-                        <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
-                        <span>add</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="results-view" id="resultsView">
-                <div class="results-header">
-                    <h3 id="queryTitle">Search Results</h3>
-                </div>
-                <div class="results-list" id="resultsList"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            const user = document.getElementById('userInput').value;
-            if (user) {
-                document.getElementById('sidebarUsername').innerText = user;
-            }
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('bgLayer').classList.add('unblur');
-            document.getElementById('dashboard').classList.add('active');
+<script>
+    function handleLogin(event) {
+        event.preventDefault();
+        const user = document.getElementById('userInput').value;
+        if (user) {
+            document.getElementById('sidebarUsername').innerText = user;
         }
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('bgLayer').classList.add('unblur');
+        document.getElementById('dashboard').classList.add('active');
+    }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function focusSearch() {
+        goHome();
+        document.getElementById('urlInput').focus();
+    }
+
+    function openUrl(url) {
+        const frame = document.getElementById('browserFrame');
+        const homeView = document.getElementById('homeView');
+        const resultsView = document.getElementById('resultsView');
+        const urlDisplay = document.getElementById('currentUrl');
+        const tabName = document.getElementById('sidebarTabName');
+
+        // Hide home and search results, show the iframe
+        homeView.style.display = 'none';
+        resultsView.style.display = 'none';
+        frame.style.display = 'block';
+
+        frame.src = url;
+        urlDisplay.innerText = url;
+        tabName.innerText = url.replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0];
+        document.getElementById('sidebar').classList.remove('open');
+    }
+
+    function handleSearch(event) {
+        event.preventDefault();
+        let query = document.getElementById('urlInput').value.trim().toLowerCase();
+        if (!query) return;
+
+        // Direct Shortcuts for Game Sites and Embeddable Web Apps
+        if (query.includes('poki')) {
+            openUrl('https://poki.com');
+        } else if (query.includes('crazygames') || query.includes('crazy games')) {
+            openUrl('https://www.crazygames.com');
+        } else if (query.includes('wiki') || query.includes('wikipedia')) {
+            openUrl('https://wikipedia.org');
+        } else if (query.includes('archive')) {
+            openUrl('https://archive.org');
+        } else if (query.startsWith('http://') || query.startsWith('https://')) {
+            openUrl(query);
+        } else if (query.includes('.') && !query.includes(' ')) {
+            openUrl('https://' + query);
+        } else {
+            // General query fallback list for sites that block frames
+            showResultsList(query);
         }
+    }
 
-        function focusSearch() {
-            goHome();
-            document.getElementById('urlInput').focus();
-        }
+    function showResultsList(query) {
+        const homeView = document.getElementById('homeView');
+        const resultsView = document.getElementById('resultsView');
+        const frame = document.getElementById('browserFrame');
+        const urlDisplay = document.getElementById('currentUrl');
+        const tabName = document.getElementById('sidebarTabName');
+        const queryTitle = document.getElementById('queryTitle');
+        const resultsList = document.getElementById('resultsList');
 
-        function handleSearch(event) {
-            event.preventDefault();
-            let query = document.getElementById('urlInput').value.trim();
-            if (!query) return;
-            handleSearchQuery(query);
-        }
+        homeView.style.display = 'none';
+        frame.style.display = 'none';
+        resultsView.style.display = 'flex';
 
-        function handleSearchQuery(query) {
-            const homeView = document.getElementById('homeView');
-            const resultsView = document.getElementById('resultsView');
-            const urlDisplay = document.getElementById('currentUrl');
-            const tabName = document.getElementById('sidebarTabName');
-            const queryTitle = document.getElementById('queryTitle');
-            const resultsList = document.getElementById('resultsList');
+        urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
+        tabName.innerText = query;
+        queryTitle.innerText = 'Results for: "' + query + '"';
 
-            homeView.style.display = 'none';
-            resultsView.style.display = 'flex';
+        resultsList.innerHTML = `
+            <div class="result-card">
+                <a href="https://poki.com" onclick="openUrl('https://poki.com'); return false;" class="result-title">Poki Games - Play Free Online Games</a>
+                <span class="result-url">https://poki.com</span>
+                <p class="result-desc">Play hundreds of free online games directly inside lovexs portal.</p>
+            </div>
+            <div class="result-card">
+                <a href="https://www.crazygames.com" onclick="openUrl('https://www.crazygames.com'); return false;" class="result-title">CrazyGames - Free Online Games</a>
+                <span class="result-url">https://www.crazygames.com</span>
+                <p class="result-desc">Play browser games in your custom viewport.</p>
+            </div>
+            <div class="result-card">
+                <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search Google for "${query}"</a>
+                <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
+                <p class="result-desc">Open in external tab (Google blocks embedded windows).</p>
+            </div>
+        `;
 
-            urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
-            tabName.innerText = query;
-            queryTitle.innerText = 'Results for: "' + query + '"';
+        document.getElementById('sidebar').classList.remove('open');
+    }
 
-            // Generate embedded internal results to bypass X-Frame restrictions
-            resultsList.innerHTML = `
-                <div class="result-card">
-                    <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">${query} - Direct Web Portal</a>
-                    <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
-                    <p class="result-desc">Open "${query}" in an optimized external window tab to safely bypass frame restrictions.</p>
-                </div>
-                <div class="result-card">
-                    <a href="https://duckduckgo.com/?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search DuckDuckGo for ${query}</a>
-                    <span class="result-url">https://duckduckgo.com/?q=${encodeURIComponent(query)}</span>
-                    <p class="result-desc">Alternative secure search destination for ${query}.</p>
-                </div>
-            `;
+    function goHome() {
+        const homeView = document.getElementById('homeView');
+        const resultsView = document.getElementById('resultsView');
+        const frame = document.getElementById('browserFrame');
+        
+        frame.src = 'about:blank';
+        frame.style.display = 'none';
+        resultsView.style.display = 'none';
+        homeView.style.display = 'flex';
 
-            document.getElementById('sidebar').classList.remove('open');
-        }
-
-        function goHome() {
-            const homeView = document.getElementById('homeView');
-            const resultsView = document.getElementById('resultsView');
-            
-            resultsView.style.display = 'none';
-            homeView.style.display = 'flex';
-
-            document.getElementById('currentUrl').innerText = 'lovexs://home';
-            document.getElementById('sidebarTabName').innerText = 'Main Tab';
-            document.getElementById('sidebar').classList.remove('open');
-        }
-    </script>
-</body>
-</html>
+        document.getElementById('currentUrl').innerText = 'lovexs://home';
+        document.getElementById('sidebarTabName').innerText = 'Main Tab';
+        document.getElementById('sidebar').classList.remove('open');
+    }
+</script>
