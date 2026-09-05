@@ -148,7 +148,7 @@ body {
 
 /* Search Bar */
 .search-box {
-    width: 420px;
+    width: 500px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 12px 20px;
