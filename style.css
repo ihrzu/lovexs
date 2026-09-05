@@ -148,7 +148,7 @@ body {
 
 /* Search Bar */
 .search-box {
-    width: 520px;
+    width: 420px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 12px 20px;
@@ -211,15 +211,15 @@ body {
     transform: translateY(-3px);
 }
 
-/* Built-In Browser Window Overlay */
+/* Built-In Browser Popup Window */
 .browser-window {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150vw;
-    height: 100vh;
+    width: 80vw;
+    height: 75vh;
     background: #111;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
@@ -227,32 +227,82 @@ body {
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease;
 }
 
 .browser-window.active {
     display: flex;
 }
 
+/* Fullscreen Mode */
+.browser-window.fullscreen {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+}
+
+/* Minimized Mode */
+.browser-window.minimized {
+    height: 40px;
+    top: auto;
+    bottom: 20px;
+    transform: translateX(-50%);
+    overflow: hidden;
+}
+
 .browser-header {
     background: #1a1a1a;
-    padding: 8px 15px;
+    padding: 10px 16px;
     display: flex;
     align-items: center;
     gap: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.browser-header button {
-    background: transparent;
+/* Window Control Buttons */
+.window-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.win-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     border: none;
-    color: #fff;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
     cursor: pointer;
+    color: #000;
+    transition: opacity 0.2s;
+}
+
+.win-btn:hover {
+    opacity: 0.8;
+}
+
+.close-btn {
+    background: #ff5f56;
+}
+
+.min-btn {
+    background: #ffbd2e;
+}
+
+.max-btn {
+    background: #27c93f;
 }
 
 #currentUrl {
     font-size: 12px;
     color: #888;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #browserFrame {
