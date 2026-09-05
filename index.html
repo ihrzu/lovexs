@@ -384,6 +384,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #111;
         }
 
         .center-content {
@@ -479,13 +480,13 @@
             transform: translateY(-3px);
         }
 
-        /* EMBEDDED FRAME & RESULTS LIST */
+        /* EMBEDDED IFRAME SETUP */
         .web-frame {
             display: none;
             width: 100%;
             height: 100%;
             border: none;
-            background: #fff;
+            background: #111;
         }
 
         .results-view {
@@ -660,7 +661,14 @@
                 </div>
             </div>
 
-            <iframe id="browserFrame" src="about:blank" class="web-frame" name="internalFrame"></iframe>
+            <iframe 
+                id="browserFrame" 
+                src="about:blank" 
+                class="web-frame" 
+                name="internalFrame"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; gamepad; fullscreen"
+                sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation">
+            </iframe>
 
             <div class="results-view" id="resultsView">
                 <div class="results-header">
@@ -714,7 +722,6 @@
             let query = document.getElementById('urlInput').value.trim().toLowerCase();
             if (!query) return;
 
-            // Direct route logic for game websites & iframe-friendly sources
             if (query.includes('poki')) {
                 openUrl('https://poki.com');
             } else if (query.includes('crazygames') || query.includes('crazy games')) {
@@ -751,19 +758,14 @@
 
             resultsList.innerHTML = `
                 <div class="result-card">
-                    <span onclick="openUrl('https://poki.com');" class="result-title">Poki Games - Play Directly Inside Portal</span>
+                    <span onclick="openUrl('https://poki.com');" class="result-title">Poki Games - Open Embedded</span>
                     <span class="result-url">https://poki.com</span>
-                    <p class="result-desc">Play hundreds of web games directly within this window.</p>
+                    <p class="result-desc">Play hundreds of web games directly inside the portal.</p>
                 </div>
                 <div class="result-card">
-                    <span onclick="openUrl('https://www.crazygames.com');" class="result-title">CrazyGames - Free Browser Games</span>
+                    <span onclick="openUrl('https://www.crazygames.com');" class="result-title">CrazyGames - Open Embedded</span>
                     <span class="result-url">https://www.crazygames.com</span>
-                    <p class="result-desc">Load games inside your custom viewport without leaving.</p>
-                </div>
-                <div class="result-card">
-                    <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search Google for "${query}" (External)</a>
-                    <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
-                    <p class="result-desc">Open Google results in an external tab (prevents iframe refusal errors).</p>
+                    <p class="result-desc">Load games inside your custom viewport.</p>
                 </div>
             `;
 
