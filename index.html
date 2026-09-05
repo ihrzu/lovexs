@@ -9,10 +9,12 @@
 </head>
 <body>
 
+    <!-- Background Layer -->
     <div class="bg-blur" id="bgLayer"></div>
 
+    <!-- Clean Top-Left Corner -->
     <div class="top-bar">
-        <span class="top-heart"><3</span>
+        <span class="top-heart">&lt;3</span>
         <div class="top-icons">
             <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
             <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
@@ -21,6 +23,7 @@
         </div>
     </div>
 
+    <!-- BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
@@ -30,15 +33,19 @@
         </form>
     </div>
 
+    <!-- MAIN DASHBOARD -->
     <div class="dashboard" id="dashboard">
         <div class="center-content">
-            <div class="big-heart"><3</div>
+            <!-- Giant Heart -->
+            <div class="big-heart">&lt;3</div>
 
+            <!-- Search Bar -->
             <form class="search-box" onsubmit="launchBrowser(event)">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="urlInput" placeholder="Have anything in mind?">
             </form>
 
+            <!-- Horizontal Dock -->
             <div class="button-dock">
                 <a href="https://youtube.com" target="_blank" class="dock-item">
                     <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
@@ -56,6 +63,16 @@
                     <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
                     <span>spotify</span>
                 </a>
+                
+                <!-- macOS Style Minimized Browser Tab in Dock -->
+                <div class="dock-item minimized-tab" id="minimizedTab" onclick="restoreBrowser()">
+                    <div class="icon-circle browser-dock-icon">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="active-dot"></span>
+                    </div>
+                    <span id="dockTabLabel">browser</span>
+                </div>
+
                 <div class="dock-item">
                     <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
                     <span>add</span>
@@ -63,6 +80,7 @@
             </div>
         </div>
 
+        <!-- Built-In Browser Popup Window -->
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
                 <div class="window-controls">
@@ -70,7 +88,7 @@
                     <button class="win-btn min-btn" onclick="minimizeBrowser()" title="Minimize"><i class="fa-solid fa-minus"></i></button>
                     <button class="win-btn max-btn" onclick="toggleFullscreen()" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
                 </div>
-                <span id="currentUrl"></span>
+                <span id="currentUrl">https://...</span>
             </div>
             <iframe id="browserFrame" src="about:blank"></iframe>
         </div>
@@ -91,28 +109,43 @@
 
             let targetUrl = query;
             if (!query.startsWith('http://') && !query.startsWith('https://')) {
-                if (query.includes('.')) {
+                if (query.includes('.') && !query.includes(' ')) {
                     targetUrl = 'https://' + query;
                 } else {
                     targetUrl = 'https://www.bing.com/search?q=' + encodeURIComponent(query);
                 }
             }
 
-            const win = document.getElementById('browserWindow');
-            win.classList.remove('minimized');
-            document.getElementById('browserFrame').src = targetUrl;
+            const frame = document.getElementById('browserFrame');
+            frame.src = targetUrl;
+            
             document.getElementById('currentUrl').innerText = targetUrl;
+            document.getElementById('dockTabLabel').innerText = query.substring(0, 10);
+            
+            const win = document.getElementById('browserWindow');
+            win.classList.remove('minimized-state');
             win.classList.add('active');
+            
+            document.getElementById('minimizedTab').classList.remove('visible');
         }
 
         function closeBrowser() {
             const win = document.getElementById('browserWindow');
-            win.classList.remove('active', 'fullscreen', 'minimized');
+            win.classList.remove('active', 'fullscreen', 'minimized-state');
             document.getElementById('browserFrame').src = 'about:blank';
+            document.getElementById('minimizedTab').classList.remove('visible');
         }
 
         function minimizeBrowser() {
-            document.getElementById('browserWindow').classList.toggle('minimized');
+            const win = document.getElementById('browserWindow');
+            win.classList.add('minimized-state');
+            document.getElementById('minimizedTab').classList.add('visible');
+        }
+
+        function restoreBrowser() {
+            const win = document.getElementById('browserWindow');
+            win.classList.remove('minimized-state');
+            document.getElementById('minimizedTab').classList.remove('visible');
         }
 
         function toggleFullscreen() {
