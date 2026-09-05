@@ -33,12 +33,12 @@
         </div>
 
         <div class="sidebar-nav-grid">
-            <div class="nav-grid-item" onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+            <div class="nav-grid-item" onclick="handleSearchQuery('online games')"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
             <div class="nav-grid-item" onclick="goHome()"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://chatgpt.com')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-book"></i><span>Wiki</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://archive.org')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
-            <div class="nav-grid-item" onclick="openUrl('https://html.duckduckgo.com/html/')"><i class="fa-regular fa-comment-dots"></i><span>Search</span></div>
+            <div class="nav-grid-item" onclick="handleSearchQuery('ai tools')"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+            <div class="nav-grid-item" onclick="handleSearchQuery('music streaming')"><i class="fa-solid fa-music"></i><span>Music</span></div>
+            <div class="nav-grid-item" onclick="handleSearchQuery('free movies')"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+            <div class="nav-grid-item" onclick="handleSearchQuery('community chat')"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
         </div>
 
         <div class="sidebar-links">
@@ -88,10 +88,10 @@
         <div class="tab-body">
             <div class="center-content" id="homeView">
                 <div class="top-icons">
-                    <span onclick="openUrl('https://wikipedia.org')"><i class="fa-solid fa-globe"></i></span>
-                    <span onclick="openUrl('https://archive.org')"><i class="fa-solid fa-box-archive"></i></span>
-                    <span onclick="openUrl('https://poki.com')"><i class="fa-solid fa-gamepad"></i></span>
-                    <span onclick="openUrl('https://html.duckduckgo.com/html/')"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <span onclick="handleSearchQuery('youtube')"><i class="fa-brands fa-youtube"></i></span>
+                    <span onclick="handleSearchQuery('twitch')"><i class="fa-brands fa-twitch"></i></span>
+                    <span onclick="handleSearchQuery('discord')"><i class="fa-brands fa-discord"></i></span>
+                    <span onclick="handleSearchQuery('spotify')"><i class="fa-brands fa-spotify"></i></span>
                 </div>
 
                 <div class="big-heart"><3</div>
@@ -102,21 +102,21 @@
                 </form>
 
                 <div class="button-dock">
-                    <div class="dock-item" onclick="openUrl('https://wikipedia.org')">
-                        <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
-                        <span>wiki</span>
+                    <div class="dock-item" onclick="handleSearchQuery('youtube')">
+                        <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
+                        <span>youtube</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://poki.com')">
-                        <div class="icon-circle"><i class="fa-solid fa-gamepad"></i></div>
-                        <span>games</span>
+                    <div class="dock-item" onclick="handleSearchQuery('twitch')">
+                        <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
+                        <span>twitch</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://archive.org')">
-                        <div class="icon-circle"><i class="fa-solid fa-box-archive"></i></div>
-                        <span>archive</span>
+                    <div class="dock-item" onclick="handleSearchQuery('discord')">
+                        <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
+                        <span>discord</span>
                     </div>
-                    <div class="dock-item" onclick="openUrl('https://html.duckduckgo.com/html/')">
-                        <div class="icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
-                        <span>search</span>
+                    <div class="dock-item" onclick="handleSearchQuery('spotify')">
+                        <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
+                        <span>spotify</span>
                     </div>
                     <div class="dock-item" onclick="focusSearch()">
                         <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
@@ -125,7 +125,12 @@
                 </div>
             </div>
 
-            <iframe id="browserFrame" src="about:blank" class="web-frame" name="internalFrame"></iframe>
+            <div class="results-view" id="resultsView">
+                <div class="results-header">
+                    <h3 id="queryTitle">Search Results</h3>
+                </div>
+                <div class="results-list" id="resultsList"></div>
+            </div>
         </div>
     </div>
 
@@ -150,46 +155,50 @@
             document.getElementById('urlInput').focus();
         }
 
-        function openUrl(url) {
-            const frame = document.getElementById('browserFrame');
-            const homeView = document.getElementById('homeView');
-            const urlDisplay = document.getElementById('currentUrl');
-            const tabName = document.getElementById('sidebarTabName');
-
-            frame.src = url;
-            homeView.style.display = 'none';
-            frame.style.display = 'block';
-
-            urlDisplay.innerText = url;
-            tabName.innerText = url.replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0];
-            document.getElementById('sidebar').classList.remove('open');
-        }
-
         function handleSearch(event) {
             event.preventDefault();
             let query = document.getElementById('urlInput').value.trim();
             if (!query) return;
+            handleSearchQuery(query);
+        }
 
-            let targetUrl = '';
+        function handleSearchQuery(query) {
+            const homeView = document.getElementById('homeView');
+            const resultsView = document.getElementById('resultsView');
+            const urlDisplay = document.getElementById('currentUrl');
+            const tabName = document.getElementById('sidebarTabName');
+            const queryTitle = document.getElementById('queryTitle');
+            const resultsList = document.getElementById('resultsList');
 
-            if (query.startsWith('http://') || query.startsWith('https://')) {
-                targetUrl = query;
-            } else if (query.includes('.') && !query.includes(' ')) {
-                targetUrl = 'https://' + query;
-            } else {
-                // Uses DuckDuckGo HTML which allows internal iframe rendering
-                targetUrl = 'https://html.duckduckgo.com/html/?q=' + encodeURIComponent(query);
-            }
+            homeView.style.display = 'none';
+            resultsView.style.display = 'flex';
 
-            openUrl(targetUrl);
+            urlDisplay.innerText = 'lovexs://search?q=' + encodeURIComponent(query);
+            tabName.innerText = query;
+            queryTitle.innerText = 'Results for: "' + query + '"';
+
+            // Generate embedded internal results to bypass X-Frame restrictions
+            resultsList.innerHTML = `
+                <div class="result-card">
+                    <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="result-title">${query} - Direct Web Portal</a>
+                    <span class="result-url">https://www.google.com/search?q=${encodeURIComponent(query)}</span>
+                    <p class="result-desc">Open "${query}" in an optimized external window tab to safely bypass frame restrictions.</p>
+                </div>
+                <div class="result-card">
+                    <a href="https://duckduckgo.com/?q=${encodeURIComponent(query)}" target="_blank" class="result-title">Search DuckDuckGo for ${query}</a>
+                    <span class="result-url">https://duckduckgo.com/?q=${encodeURIComponent(query)}</span>
+                    <p class="result-desc">Alternative secure search destination for ${query}.</p>
+                </div>
+            `;
+
+            document.getElementById('sidebar').classList.remove('open');
         }
 
         function goHome() {
-            const frame = document.getElementById('browserFrame');
             const homeView = document.getElementById('homeView');
+            const resultsView = document.getElementById('resultsView');
             
-            frame.src = 'about:blank';
-            frame.style.display = 'none';
+            resultsView.style.display = 'none';
             homeView.style.display = 'flex';
 
             document.getElementById('currentUrl').innerText = 'lovexs://home';
