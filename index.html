@@ -11,6 +11,58 @@
 
     <div class="bg-blur" id="bgLayer"></div>
 
+    <button class="pull-button" onclick="toggleSidebar()" title="Toggle Sidebar">
+        <i class="fa-solid fa-sidebar"></i>
+    </button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">PeteZah</h1>
+            <div class="header-icons">
+                <i class="fa-solid fa-bolt"></i>
+                <i class="fa-regular fa-bookmark"></i>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">TABS</span>
+            <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
+                <i class="fa-solid fa-globe"></i>
+                <span id="sidebarTabName">Active Page</span>
+            </div>
+        </div>
+
+        <div class="sidebar-nav-grid">
+            <div class="nav-grid-item"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+            <div class="nav-grid-item"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
+            <div class="nav-grid-item"><i class="fa-solid fa-robot"></i><span>AI</span></div>
+            <div class="nav-grid-item"><i class="fa-solid fa-music"></i><span>Music</span></div>
+            <div class="nav-grid-item"><i class="fa-solid fa-film"></i><span>Movies</span></div>
+            <div class="nav-grid-item"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
+        </div>
+
+        <div class="sidebar-links">
+            <div class="link-item"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
+            <div class="link-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
+            <div class="link-item"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
+        </div>
+
+        <button class="new-tab-btn" onclick="focusSearch()">
+            <i class="fa-solid fa-plus"></i> New Tab
+        </button>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUsername">Guest</span>
+                    <span class="user-status">Sign in</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-command cmd-icon"></i>
+        </div>
+    </aside>
+
     <div class="login-box" id="loginBox">
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
@@ -21,59 +73,6 @@
     </div>
 
     <div class="dashboard" id="dashboard">
-        
-        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
-            <i class="fa-solid fa-sidebar"></i>
-        </button>
-
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-title">PeteZah</h1>
-                <div class="header-icons">
-                    <i class="fa-solid fa-bolt"></i>
-                    <i class="fa-regular fa-bookmark"></i>
-                </div>
-            </div>
-
-            <div class="sidebar-section">
-                <span class="section-label">TABS</span>
-                <div class="active-tab-card" id="sidebarTabCard" onclick="restoreBrowser()">
-                    <i class="fa-solid fa-globe"></i>
-                    <span id="sidebarTabName">Active Page</span>
-                </div>
-            </div>
-
-            <div class="sidebar-nav-grid">
-                <div class="nav-grid-item"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
-                <div class="nav-grid-item"><i class="fa-solid fa-grip"></i><span>Apps</span></div>
-                <div class="nav-grid-item"><i class="fa-solid fa-robot"></i><span>AI</span></div>
-                <div class="nav-grid-item"><i class="fa-solid fa-music"></i><span>Music</span></div>
-                <div class="nav-grid-item"><i class="fa-solid fa-film"></i><span>Movies</span></div>
-                <div class="nav-grid-item"><i class="fa-regular fa-comment-dots"></i><span>Chat</span></div>
-            </div>
-
-            <div class="sidebar-links">
-                <div class="link-item"><i class="fa-regular fa-bookmark"></i><span>Saved</span></div>
-                <div class="link-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
-                <div class="link-item"><i class="fa-solid fa-puzzle-piece"></i><span>Extensions</span></div>
-            </div>
-
-            <button class="new-tab-btn" onclick="focusSearch()">
-                <i class="fa-solid fa-plus"></i> New Tab
-            </button>
-
-            <div class="sidebar-footer">
-                <div class="user-profile">
-                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
-                    <div class="user-info">
-                        <span class="user-name" id="sidebarUsername">Guest</span>
-                        <span class="user-status">Sign in</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-command cmd-icon"></i>
-            </div>
-        </aside>
-
         <div class="center-content">
             <div class="top-icons">
                 <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
