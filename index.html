@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive</title>
+    <title>lovexs</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Background Layer (Blurred during login) -->
-    <div class="bg-layer" id="bgLayer"></div>
+    <!-- Background Blur Layer -->
+    <div class="bg-blur" id="bgLayer"></div>
 
-    <!-- 1. BUBBLY LOGIN BOX -->
+    <!-- Top Left Corner -->
+    <div class="top-bar">
+        <span class="top-heart">&lt;3</span>
+        <div class="top-icons">
+            <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+            <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+        </div>
+    </div>
+
+    <!-- BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
-        <div class="login-heart">&lt;3</div>
         <h2>welcome back</h2>
         <form onsubmit="handleLogin(event)">
             <input type="text" placeholder="username" required>
@@ -24,68 +33,31 @@
         </form>
     </div>
 
-    <!-- 2. MAIN DASHBOARD -->
+    <!-- MAIN DASHBOARD -->
     <div class="dashboard" id="dashboard">
-        <!-- Top Left Corner Icons -->
-        <div class="top-bar">
-            <span class="top-heart">&lt;3</span>
-            <div class="top-icons">
-                <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://twitch.tv" target="_blank"><i class="fa-brands fa-twitch"></i></a>
-                <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
-                <a href="https://spotify.com" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-            </div>
+        <!-- Giant Heart in Center -->
+        <div class="big-heart">&lt;3</div>
+
+        <!-- Built-In Browser Search Bar -->
+        <form class="search-box" onsubmit="launchBrowser(event)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="urlInput" placeholder="Have anything in mind?">
+        </form>
+
+        <!-- Horizontal Dock -->
+        <div class="button-dock">
+            <a href="https://youtube.com" target="_blank" class="dock-btn"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://twitch.tv" target="_blank" class="dock-btn"><i class="fa-brands fa-twitch"></i></a>
+            <a href="https://discord.com" target="_blank" class="dock-btn"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://spotify.com" target="_blank" class="dock-btn"><i class="fa-brands fa-spotify"></i></a>
+            <div class="dock-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <!-- Center Container -->
-        <div class="center-container">
-            <!-- Heart Graphic -->
-            <div class="heart-wrapper">
-                <svg viewBox="0 0 100 90" class="heart-svg">
-                    <path d="M0 30 C0 0, 50 -10, 50 25 C50 -10, 100 0, 100 30 C100 60, 50 90, 50 90 C50 90, 0 60, 0 30 Z" fill="#ffffff" />
-                </svg>
-                <span class="heart-text">&lt;3</span>
-            </div>
-
-            <!-- Built-In Browser Search Bar -->
-            <form class="search-box" onsubmit="launchBrowser(event)">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="urlInput" placeholder="Have anything in mind? (Enter URL or Search)" required>
-            </form>
-
-            <!-- Bottom App Dock -->
-            <div class="dock">
-                <a href="https://youtube.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
-                    <span>youtube</span>
-                </a>
-                <a href="https://twitch.tv" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-twitch"></i></div>
-                    <span>twitch</span>
-                </a>
-                <a href="https://discord.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-discord"></i></div>
-                    <span>discord</span>
-                </a>
-                <a href="https://spotify.com" target="_blank" class="dock-item">
-                    <div class="icon-circle"><i class="fa-brands fa-spotify"></i></div>
-                    <span>spotify</span>
-                </a>
-                <div class="dock-item">
-                    <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
-                    <span>add</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. BUILT-IN BROWSER POPUP WINDOW -->
+        <!-- Built-In Browser Overlay -->
         <div class="browser-window" id="browserWindow">
             <div class="browser-header">
-                <div class="browser-controls">
-                    <button onclick="closeBrowser()" title="Close"><i class="fa-solid fa-xmark"></i></button>
-                    <button onclick="reloadBrowser()" title="Reload"><i class="fa-solid fa-rotate-right"></i></button>
-                </div>
-                <span id="currentUrl">https://...</span>
+                <button onclick="closeBrowser()"><i class="fa-solid fa-xmark"></i></button>
+                <span id="currentUrl"></span>
             </div>
             <iframe id="browserFrame" src="about:blank"></iframe>
         </div>
@@ -121,11 +93,6 @@
         function closeBrowser() {
             document.getElementById('browserWindow').classList.remove('active');
             document.getElementById('browserFrame').src = 'about:blank';
-        }
-
-        function reloadBrowser() {
-            const frame = document.getElementById('browserFrame');
-            frame.src = frame.src;
         }
     </script>
 </body>
