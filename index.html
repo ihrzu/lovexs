@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lovexs</title>
+    <title>Google Drive</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- Background Layer (Blurred during login) -->
     <div class="bg-layer" id="bgLayer"></div>
 
+    <!-- 1. BUBBLY LOGIN BOX -->
     <div class="login-box" id="loginBox">
         <div class="login-heart">&lt;3</div>
         <h2>welcome back</h2>
@@ -21,7 +24,9 @@
         </form>
     </div>
 
+    <!-- 2. MAIN DASHBOARD -->
     <div class="dashboard" id="dashboard">
+        <!-- Top Left Corner Icons -->
         <div class="top-bar">
             <span class="top-heart">&lt;3</span>
             <div class="top-icons">
@@ -32,7 +37,9 @@
             </div>
         </div>
 
+        <!-- Center Container -->
         <div class="center-container">
+            <!-- Heart Graphic -->
             <div class="heart-wrapper">
                 <svg viewBox="0 0 100 90" class="heart-svg">
                     <path d="M0 30 C0 0, 50 -10, 50 25 C50 -10, 100 0, 100 30 C100 60, 50 90, 50 90 C50 90, 0 60, 0 30 Z" fill="#ffffff" />
@@ -40,11 +47,13 @@
                 <span class="heart-text">&lt;3</span>
             </div>
 
-            <div class="search-box">
+            <!-- Built-In Browser Search Bar -->
+            <form class="search-box" onsubmit="launchBrowser(event)">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" placeholder="Have anything in mind?">
-            </div>
+                <input type="text" id="urlInput" placeholder="Have anything in mind? (Enter URL or Search)" required>
+            </form>
 
+            <!-- Bottom App Dock -->
             <div class="dock">
                 <a href="https://youtube.com" target="_blank" class="dock-item">
                     <div class="icon-circle"><i class="fa-brands fa-youtube"></i></div>
@@ -68,16 +77,55 @@
                 </div>
             </div>
         </div>
+
+        <!-- 3. BUILT-IN BROWSER POPUP WINDOW -->
+        <div class="browser-window" id="browserWindow">
+            <div class="browser-header">
+                <div class="browser-controls">
+                    <button onclick="closeBrowser()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="reloadBrowser()" title="Reload"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+                <span id="currentUrl">https://...</span>
+            </div>
+            <iframe id="browserFrame" src="about:blank"></iframe>
+        </div>
     </div>
 
     <script>
         function handleLogin(event) {
             event.preventDefault();
-            // Hide login modal
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('bgLayer').classList.add('unblur');
-            // Show main screen
             document.getElementById('dashboard').classList.add('active');
+        }
+
+        function launchBrowser(event) {
+            event.preventDefault();
+            let query = document.getElementById('urlInput').value.trim();
+            if (!query) return;
+
+            let targetUrl = query;
+            if (!query.startsWith('http://') && !query.startsWith('https://')) {
+                if (query.includes('.')) {
+                    targetUrl = 'https://' + query;
+                } else {
+                    targetUrl = 'https://www.bing.com/search?q=' + encodeURIComponent(query);
+                }
+            }
+
+            document.getElementById('browserFrame').src = targetUrl;
+            document.getElementById('currentUrl').innerText = targetUrl;
+            document.getElementById('browserWindow').classList.add('active');
+        }
+
+        function closeBrowser() {
+            document.getElementById('browserWindow').classList.remove('active');
+            document.getElementById('browserFrame').src = 'about:blank';
+        }
+
+        function reloadBrowser() {
+            const frame = document.getElementById('browserFrame');
+            frame.src = frame.src;
         }
     </script>
 </body>
