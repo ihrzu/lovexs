@@ -510,13 +510,19 @@
             object-fit: cover;
         }
 
+        .game-card-icon {
+            font-size: 38px;
+            color: #38bdf8;
+            margin-bottom: 12px;
+        }
+
         .game-card-title {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-            padding: 10px 6px 6px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 12px 6px 6px;
             font-size: 11px;
             font-weight: 600;
             text-align: center;
@@ -672,16 +678,16 @@
     </div>
 
     <script>
-        // GAME LIST CONFIGURATION
+        // GAME LIST WITH UPDATED CORRECT ENTRIES & ICONS
         const gamesList = [
-            { name: "Slope", url: "https://krunker.io", img: "https://picsum.photos/seed/slope/200" },
-            { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/", img: "https://picsum.photos/seed/cookie/200" },
-            { name: "Geometry Dash", url: "https://scratch.mit.edu/projects/105500895/embed", img: "https://picsum.photos/seed/gd/200" },
-            { name: "Cut The Rope", url: "https://freegamehosting.net", img: "https://picsum.photos/seed/cut/200" },
-            { name: "Retro Bowl", url: "https://game316006.konggames.com", img: "https://picsum.photos/seed/retro/200" },
-            { name: "Smash Bros", url: "https://scratch.mit.edu/projects/10128407/embed", img: "https://picsum.photos/seed/smash/200" },
-            { name: "Subway Surfers", url: "https://poki.com", img: "https://picsum.photos/seed/subway/200" },
-            { name: "Drive Mad", url: "https://poki.com", img: "https://picsum.photos/seed/drive/200" }
+            { name: "Krunker", url: "https://krunker.io", icon: "fa-crosshair", img: "https://krunker.io/img/favicon.png" },
+            { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/", icon: "fa-cookie-bite", img: "https://orteil.dashnet.org/cookieclicker/img/cookie.png" },
+            { name: "Geometry Dash", url: "https://scratch.mit.edu/projects/105500895/embed", icon: "fa-cube", img: "" },
+            { name: "Cut The Rope", url: "https://freegamehosting.net", icon: "fa-scissors", img: "" },
+            { name: "Retro Bowl", url: "https://game316006.konggames.com", icon: "fa-football", img: "" },
+            { name: "Smash Bros", url: "https://scratch.mit.edu/projects/10128407/embed", icon: "fa-hand-fist", img: "" },
+            { name: "Subway Surfers", url: "https://poki.com", icon: "fa-train", img: "" },
+            { name: "Drive Mad", url: "https://poki.com", icon: "fa-car", img: "" }
         ];
 
         function handleLogin(event) {
@@ -712,10 +718,19 @@
                 const card = document.createElement('div');
                 card.className = 'game-card';
                 card.onclick = () => loadGame(game.url, game.name);
-                card.innerHTML = `
-                    <img src="${game.img}" alt="${game.name}">
-                    <div class="game-card-title">${game.name}</div>
-                `;
+                
+                if (game.img) {
+                    card.innerHTML = `
+                        <img src="${game.img}" alt="${game.name}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\\'fa-solid ${game.icon} game-card-icon\\'></i><div class=\\'game-card-title\\'>${game.name}</div>';">
+                        <div class="game-card-title">${game.name}</div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <i class="fa-solid ${game.icon} game-card-icon"></i>
+                        <div class="game-card-title">${game.name}</div>
+                    `;
+                }
+                
                 grid.appendChild(card);
             });
         }
@@ -748,11 +763,11 @@
         function handleSearch(event) {
             event.preventDefault();
             const query = document.getElementById('urlInput').value.trim();
-            if (query.toLowerCase().includes('game')) {
-                openGamesView();
-            } else if (query) {
-                openGamesView();
-            }
+            if (!query) return;
+
+            openGamesView();
+            document.getElementById('gameSearch').value = query;
+            filterGames();
         }
 
         function goHome() {
