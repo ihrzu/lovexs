@@ -56,7 +56,7 @@ body {
     left: 0;
 }
 
-/* VERTICAL "LOVEXS" PULL TAB ATTACHED TO SIDEBAR */
+/* VERTICAL PULL TAB ATTACHED TO SIDEBAR */
 .pull-button {
     position: absolute;
     top: 80px;
@@ -481,11 +481,55 @@ body {
     transform: translateY(-3px);
 }
 
-/* Embedded Web Frame */
-.web-frame {
+/* INTERNAL RESULTS VIEW */
+.results-view {
     display: none;
     width: 100%;
     height: 100%;
-    border: none;
-    background: #fff;
+    padding: 30px;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+.results-header h3 {
+    font-weight: 400;
+    color: #a0aec0;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.result-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 18px 22px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.result-title {
+    color: #38bdf8;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.result-title:hover {
+    text-decoration: underline;
+}
+
+.result-url {
+    font-size: 11px;
+    color: #718096;
+}
+
+.result-desc {
+    font-size: 13px;
+    color: #cbd5e1;
 }
